@@ -76,10 +76,10 @@ class HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  controlSearching(String username) {
+  controlSearching(String userName) {
     Future<QuerySnapshot> allFoundUsers = Firestore.instance
         .collection("users")
-        .where("nickname", isGreaterThanOrEqualTo: username)
+        .where("nickname", isGreaterThanOrEqualTo: userName)
         .getDocuments();
 
     setState(() {
@@ -136,7 +136,7 @@ class HomeScreenState extends State<HomeScreen> {
           return circularProgress();
         }
         List<UserResult> searchUserResult = [];
-        dataSnapshot.data.document.forEach((document) {
+        dataSnapshot.data.documents.forEach((document) {
           User eachUser = User.fromDocument(document);
           UserResult userResult = UserResult(eachUser);
 
@@ -165,6 +165,7 @@ class UserResult extends StatelessWidget {
         child: Column(
           children: <Widget>[
             GestureDetector(
+              onTap: () => sendUserToChatPage(context),
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundColor: Colors.black,
@@ -195,5 +196,15 @@ class UserResult extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  sendUserToChatPage(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Chat(
+                receiverId: eachUser.id,
+                receiverAvatar: eachUser.photoUrl,
+                receiverName: eachUser.nickname)));
   }
 }

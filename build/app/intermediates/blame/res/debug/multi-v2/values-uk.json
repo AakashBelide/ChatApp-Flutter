@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\Project\\Flutter Projects\\chat_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uk\\values-uk.xml",
+            "outputFile": "D:\\Projects\\Flutter Projects\\ChatApp-Flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-uk\\values-uk.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-2\\files-2.1\\03c744113160407b4733fa20ba380408\\jetified-firebase-messaging-20.1.4\\res\\values-uk\\values.xml",

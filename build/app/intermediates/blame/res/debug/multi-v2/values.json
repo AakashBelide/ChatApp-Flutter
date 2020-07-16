@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "D:\\Project\\Flutter Projects\\chat_app\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "D:\\Projects\\Flutter Projects\\ChatApp-Flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
                     "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-2\\files-2.1\\d8686394f6ab9b7eaa7f312eeff4fad9\\media-1.1.0\\res\\values\\values.xml",
@@ -40,23 +40,6 @@
                     }
                 },
                 {
-                    "source": "D:\\Project\\Flutter Projects\\chat_app\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,199,308,390,494,603,723,821",
-                        "endColumns": "143,108,81,103,108,119,97,74",
-                        "endOffsets": "194,303,385,489,598,718,816,891"
-                    },
-                    "to": {
-                        "startLines": "112,114,115,116,117,118,119,120",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "8235,8461,8570,8652,8756,8865,8985,9083",
-                        "endColumns": "143,108,81,103,108,119,97,74",
-                        "endOffsets": "8374,8565,8647,8751,8860,8980,9078,9153"
-                    }
-                },
-                {
                     "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-2\\files-2.1\\03c744113160407b4733fa20ba380408\\jetified-firebase-messaging-20.1.4\\res\\values\\values.xml",
                     "from": {
                         "startLines": "4",
@@ -91,25 +74,6 @@
                     }
                 },
                 {
-                    "source": "D:\\Project\\Flutter Projects\\chat_app\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endLines": "6",
-                        "endColumns": "12",
-                        "endOffsets": "347"
-                    },
-                    "to": {
-                        "startLines": "122",
-                        "startColumns": "4",
-                        "startOffsets": "9229",
-                        "endLines": "126",
-                        "endColumns": "12",
-                        "endOffsets": "9521"
-                    }
-                },
-                {
                     "source": "C:\\Users\\Acer\\.gradle\\caches\\transforms-2\\files-2.1\\8d95433532cb4b9566f74eb65878110a\\core-1.2.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,83,84,88,89,90,91,98,141,173,210",
@@ -126,6 +90,42 @@
                         "endLines": "10,11,14,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,93,121,127,131,133,139,141,143,144,151,194,226,263,270",
                         "endColumns": "68,62,57,73,69,67,71,69,60,73,72,60,60,61,63,61,60,67,99,59,65,72,68,56,51,61,71,75,64,58,58,59,59,59,59,59,59,59,59,59,59,58,59,59,59,59,59,59,59,59,59,59,58,59,59,58,58,58,58,58,58,34,34,54,62,54,57,56,49,60,56,33,34,34,69,70,116,12,109,12,128,71,66,24,24,24,24,24",
                         "endOffsets": "840,903,1121,1268,1338,1406,1478,1548,1609,1683,1756,1817,1878,1940,2004,2066,2127,2195,2295,2355,2421,2494,2563,2620,2672,2734,3018,3094,3159,3218,3277,3337,3397,3457,3517,3577,3637,3697,3757,3817,3877,3936,3996,4056,4116,4176,4236,4296,4356,4416,4476,4536,4595,4655,4715,4774,4833,4892,4951,5010,5069,5104,5139,5194,5257,5312,5370,5427,5477,5538,5595,5629,5664,5699,5897,9224,9638,9839,10015,10399,10594,10733,10800,11098,14004,16069,17829,18206"
+                    }
+                },
+                {
+                    "source": "D:\\Projects\\Flutter Projects\\ChatApp-Flutter\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,308,390,494,603,723,821",
+                        "endColumns": "143,108,81,103,108,119,97,74",
+                        "endOffsets": "194,303,385,489,598,718,816,891"
+                    },
+                    "to": {
+                        "startLines": "112,114,115,116,117,118,119,120",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "8235,8461,8570,8652,8756,8865,8985,9083",
+                        "endColumns": "143,108,81,103,108,119,97,74",
+                        "endOffsets": "8374,8565,8647,8751,8860,8980,9078,9153"
+                    }
+                },
+                {
+                    "source": "D:\\Projects\\Flutter Projects\\ChatApp-Flutter\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "347"
+                    },
+                    "to": {
+                        "startLines": "122",
+                        "startColumns": "4",
+                        "startOffsets": "9229",
+                        "endLines": "126",
+                        "endColumns": "12",
+                        "endOffsets": "9521"
                     }
                 }
             ]
