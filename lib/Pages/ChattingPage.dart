@@ -76,11 +76,18 @@ class ChatScreenState extends State<ChatScreen> {
   });
 
   final TextEditingController textEditingController = TextEditingController();
+  final ScrollController listscrollController = ScrollController();
   final FocusNode focusNode = FocusNode();
   bool isDisplaySticker;
   bool isLoading;
   File imageFile;
   String imageUrl;
+
+  String chatId;
+  SharedPreferences preferences;
+  String id;
+
+  var listMessage;
 
   @override
   void initState() {
@@ -90,6 +97,27 @@ class ChatScreenState extends State<ChatScreen> {
 
     isDisplaySticker = false;
     isLoading = false;
+
+    chatId = "";
+
+    redLocal();
+  }
+
+  redLocal() async {
+    preferences = await SharedPreferences.getInstance();
+    id = preferences.getString("id") ?? "";
+
+    if (id.hashCode <= receiverId.hashCode) {
+      chatId = '$id-$receiverId';
+    } else {
+      chatId = '$receiverId-$id';
+    }
+    Firestore.instance
+        .collection("users")
+        .document(id)
+        .updateData({'chaatingWith': receiverId});
+
+    setState(() {});
   }
 
   onFocusChange() {
@@ -264,11 +292,41 @@ class ChatScreenState extends State<ChatScreen> {
 
   createListMessages() {
     return Flexible(
-      child: Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.lightBlueAccent),
-        ),
-      ),
+      child: chatId == ""
+          ? Center(
+              child: CircularProgressIndicator(
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(Colors.lightBlueAccent),
+              ),
+            )
+          : StreamBuilder(
+              stream: Firestore.instance
+                  .collection("messages")
+                  .document(chatId)
+                  .collection(chatId)
+                  .orderBy("timestamp", descending: true)
+                  .limit(20)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  Center(
+                    child: CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.lightBlueAccent),
+                    ),
+                  );
+                } else {
+                  listMessage = snapshot.data.documents;
+                  return ListView.builder(
+                    padding: EdgeInsets.all(10.0),
+                    //itemBuilder: (context, index) => createItem(index, snapshot.data.documents[index]),
+                    itemCount: snapshot.data.documents.length,
+                    reverse: true,
+                    controller: listscrollController,
+                  );
+                }
+              },
+            ),
     );
   }
 
@@ -349,6 +407,27 @@ class ChatScreenState extends State<ChatScreen> {
     //type = 0, text message
     //type = 1, image file
     //type = 2, sticker
+    if (contentMsg != " ") {
+      textEditingController.clear();
+      var docRef = Firestore.instance
+          .collection("messages")
+          .document(chatId)
+          .collection(chatId)
+          .document(DateTime.now().millisecondsSinceEpoch.toString());
+
+      Firestore.instance.runTransaction((transaction) async {
+        await transaction.set(docRef, {
+          "idFrom": id,
+          "idTo": receiverId,
+          "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
+          "type": type,
+        });
+      });
+      listscrollController.animateTo(0.0,
+          duration: Duration(microseconds: 300), curve: Curves.easeOut);
+    } else {
+      Fluttertoast.showToast(msg: "Empty Message, Can not be sent.");
+    }
   }
 
   Future getImage() async {
@@ -368,14 +447,13 @@ class ChatScreenState extends State<ChatScreen> {
     StorageTaskSnapshot storageTaskSnapshot =
         await storageUploadTask.onComplete;
 
-    storageTaskSnapshot.ref.getDownloadURL().then(
-        (value) => (downloadUrl) {
-              imageUrl = downloadUrl;
-              setState(() {
-                isLoading = false;
-                //onSendMessage(imageUrl, 1);
-              });
-            }, onError: (error) {
+    storageTaskSnapshot.ref.getDownloadURL().then((downloadUrl) {
+      imageUrl = downloadUrl;
+      setState(() {
+        isLoading = false;
+        //onSendMessage(imageUrl, 1);
+      });
+    }, onError: (error) {
       setState(() {
         isLoading = false;
       });
