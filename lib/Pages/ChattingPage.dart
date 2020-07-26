@@ -79,6 +79,8 @@ class ChatScreenState extends State<ChatScreen> {
   final FocusNode focusNode = FocusNode();
   bool isDisplaySticker;
   bool isLoading;
+  File imageFile;
+  String imageUrl;
 
   @override
   void initState() {
@@ -147,7 +149,7 @@ class ChatScreenState extends State<ChatScreen> {
           Row(
             children: <Widget>[
               FlatButton(
-                //onPressed: onSendMessage("mimi1", 2),
+                onPressed: () => onSendMessage("mimi1", 2),
                 child: Image.asset(
                   "images/mimi1.gif",
                   width: 50.0,
@@ -156,7 +158,7 @@ class ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               FlatButton(
-                //onPressed: onSendMessage("mimi2", 2),
+                onPressed: () => onSendMessage("mimi2", 2),
                 child: Image.asset(
                   "images/mimi2.gif",
                   width: 50.0,
@@ -165,7 +167,7 @@ class ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               FlatButton(
-                //onPressed: onSendMessage("mimi3", 2),
+                onPressed: () => onSendMessage("mimi3", 2),
                 child: Image.asset(
                   "images/mimi3.gif",
                   width: 50.0,
@@ -180,7 +182,7 @@ class ChatScreenState extends State<ChatScreen> {
           Row(
             children: <Widget>[
               FlatButton(
-                //onPressed: onSendMessage("mimi4", 2),
+                onPressed: () => onSendMessage("mimi4", 2),
                 child: Image.asset(
                   "images/mimi4.gif",
                   width: 50.0,
@@ -189,7 +191,7 @@ class ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               FlatButton(
-                //onPressed: onSendMessage("mimi5", 2),
+                onPressed: () => onSendMessage("mimi5", 2),
                 child: Image.asset(
                   "images/mimi5.gif",
                   width: 50.0,
@@ -198,7 +200,7 @@ class ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               FlatButton(
-                //onPressed: onSendMessage("mimi6", 2),
+                onPressed: () => onSendMessage("mimi6", 2),
                 child: Image.asset(
                   "images/mimi6.gif",
                   width: 50.0,
@@ -213,7 +215,7 @@ class ChatScreenState extends State<ChatScreen> {
           Row(
             children: <Widget>[
               FlatButton(
-                //onPressed: onSendMessage("mimi7", 2),
+                onPressed: () => onSendMessage("mimi7", 2),
                 child: Image.asset(
                   "images/mimi7.gif",
                   width: 50.0,
@@ -222,7 +224,7 @@ class ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               FlatButton(
-                //onPressed: onSendMessage("mimi8", 2),
+                onPressed: () => onSendMessage("mimi8", 2),
                 child: Image.asset(
                   "images/mimi8.gif",
                   width: 50.0,
@@ -231,7 +233,7 @@ class ChatScreenState extends State<ChatScreen> {
                 ),
               ),
               FlatButton(
-                //onPressed: onSendMessage("mimi9", 2),
+                onPressed: () => onSendMessage("mimi9", 2),
                 child: Image.asset(
                   "images/mimi9.gif",
                   width: 50.0,
@@ -281,7 +283,7 @@ class ChatScreenState extends State<ChatScreen> {
               child: IconButton(
                 icon: Icon(Icons.image),
                 color: Colors.lightBlueAccent,
-                onPressed: () => print("Clicked"), //getImageFromGallery
+                onPressed: getImage,
               ),
             ),
             color: Colors.white,
@@ -322,7 +324,7 @@ class ChatScreenState extends State<ChatScreen> {
               child: IconButton(
                 icon: Icon(Icons.send),
                 color: Colors.lightBlueAccent,
-                onPressed: () => print("Clicked"),
+                onPressed: () => onSendMessage(textEditingController.text, 0),
               ),
             ),
             color: Colors.white,
@@ -341,5 +343,43 @@ class ChatScreenState extends State<ChatScreen> {
         color: Colors.white,
       ),
     );
+  }
+
+  void onSendMessage(String contentMsg, int type) {
+    //type = 0, text message
+    //type = 1, image file
+    //type = 2, sticker
+  }
+
+  Future getImage() async {
+    imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (imageFile != null) {
+      isLoading = true;
+    }
+    uploadImageFile();
+  }
+
+  uploadImageFile() async {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    StorageReference storageReference =
+        FirebaseStorage.instance.ref().child("Chat Images").child(fileName);
+
+    StorageUploadTask storageUploadTask = storageReference.putFile(imageFile);
+    StorageTaskSnapshot storageTaskSnapshot =
+        await storageUploadTask.onComplete;
+
+    storageTaskSnapshot.ref.getDownloadURL().then(
+        (value) => (downloadUrl) {
+              imageUrl = downloadUrl;
+              setState(() {
+                isLoading = false;
+                //onSendMessage(imageUrl, 1);
+              });
+            }, onError: (error) {
+      setState(() {
+        isLoading = false;
+      });
+      Fluttertoast.showToast(msg: "Error: " + error);
+    });
   }
 }
