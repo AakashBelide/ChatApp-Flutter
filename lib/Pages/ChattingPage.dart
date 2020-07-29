@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:js';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -319,7 +320,8 @@ class ChatScreenState extends State<ChatScreen> {
                   listMessage = snapshot.data.documents;
                   return ListView.builder(
                     padding: EdgeInsets.all(10.0),
-                    //itemBuilder: (context, index) => createItem(index, snapshot.data.documents[index]),
+                    itemBuilder: (context, index) =>
+                        createItem(index, snapshot.data.documents[index]),
                     itemCount: snapshot.data.documents.length,
                     reverse: true,
                     controller: listscrollController,
@@ -328,6 +330,121 @@ class ChatScreenState extends State<ChatScreen> {
               },
             ),
     );
+  }
+
+  isLastMsgLeft(int index) {
+    if ((index > 0 &&
+            listMessage != null &&
+            listMessage[index - 1]["idFrom"] == id) ||
+        index == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isLastMsgRight(int index) {
+    if ((index > 0 &&
+            listMessage != null &&
+            listMessage[index - 1]["idFrom"] != id) ||
+        index == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Widget createItem(int index, DocumentSnapshot document) {
+    //Right side (Self)
+    if (document["idFrom"] == id) {
+      return Row(
+        children: <Widget>[
+          document["type"] == 0
+              //Text Messages
+              ? Container(
+                  child: Text(
+                    document["content"],
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w500),
+                  ),
+                  padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                  width: 200.0,
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlueAccent,
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  margin: EdgeInsets.only(
+                      bottom: isLastMsgRight(index) ? 20.0 : 10.0, right: 10.0),
+                )
+              //Image Messages
+              : document["type"] == 1
+                  ? Container(
+                      child: FlatButton(
+                        child: Material(
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => Container(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.lightBlueAccent),
+                              ),
+                              width: 200.0,
+                              height: 200.0,
+                              padding: EdgeInsets.all(70.0),
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8.0),
+                                ),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Material(
+                              child: Image.asset(
+                                "images/img_not_available.jpeg",
+                                width: 200.0,
+                                height: 200.0,
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                              clipBehavior: Clip.hardEdge,
+                            ),
+                            imageUrl: document["content"],
+                            width: 200.0,
+                            height: 200.0,
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                          clipBehavior: Clip.hardEdge,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      FullPhoto(url: document["content"])));
+                        },
+                      ),
+                      margin: EdgeInsets.only(
+                          bottom: isLastMsgRight(index) ? 20.0 : 10.0,
+                          right: 10.0),
+                    )
+                  //Sticker .gif Messages
+                  : Container(
+                      child: Image.asset(
+                        "images/${document['content']}.gif",
+                        width: 100.0,
+                        height: 100.0,
+                        fit: BoxFit.cover,
+                      ),
+                      margin: EdgeInsets.only(
+                          bottom: isLastMsgRight(index) ? 20.0 : 10.0,
+                          right: 10.0),
+                    ),
+        ],
+      );
+    }
+    //Receiver messages - left side
+    else {}
   }
 
   createInput() {
