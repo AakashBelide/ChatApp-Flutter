@@ -153,7 +153,7 @@ class ChatScreenState extends State<ChatScreen> {
 
   createLoading() {
     return Positioned(
-      child: isLoading ? circularProgress() : Container,
+      child: isLoading ? circularProgress() : Container(),
     );
   }
 
@@ -372,7 +372,7 @@ class ChatScreenState extends State<ChatScreen> {
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                   margin: EdgeInsets.only(
-                      bottom: isLastMsgRight(index) ? 20.0 : 10.0, right: 10.0),
+                      bottom: isLastMsgRight(index) ? 20.0 : 10.0, left: 140.0),
                 )
               //Image Messages
               : document["type"] == 1
@@ -424,7 +424,7 @@ class ChatScreenState extends State<ChatScreen> {
                       ),
                       margin: EdgeInsets.only(
                           bottom: isLastMsgRight(index) ? 20.0 : 10.0,
-                          right: 10.0),
+                          left: 108.0),
                     )
                   //Sticker .gif Messages
                   : Container(
@@ -436,7 +436,7 @@ class ChatScreenState extends State<ChatScreen> {
                       ),
                       margin: EdgeInsets.only(
                           bottom: isLastMsgRight(index) ? 20.0 : 10.0,
-                          right: 10.0),
+                          left: 240.0),
                     ),
         ],
       );
@@ -661,7 +661,7 @@ class ChatScreenState extends State<ChatScreen> {
     //type = 0, text message
     //type = 1, image file
     //type = 2, sticker
-    if (contentMsg != " ") {
+    if (contentMsg != "") {
       textEditingController.clear();
       var docRef = Firestore.instance
           .collection("messages")
@@ -675,6 +675,7 @@ class ChatScreenState extends State<ChatScreen> {
           "idTo": receiverId,
           "timestamp": DateTime.now().millisecondsSinceEpoch.toString(),
           "type": type,
+          "content": contentMsg,
         });
       });
       listscrollController.animateTo(0.0,
@@ -705,7 +706,7 @@ class ChatScreenState extends State<ChatScreen> {
       imageUrl = downloadUrl;
       setState(() {
         isLoading = false;
-        //onSendMessage(imageUrl, 1);
+        onSendMessage(imageUrl, 1);
       });
     }, onError: (error) {
       setState(() {
