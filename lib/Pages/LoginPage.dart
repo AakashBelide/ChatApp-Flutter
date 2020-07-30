@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +27,6 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    //TODO: implement initState
     super.initState();
 
     isSignedIn();

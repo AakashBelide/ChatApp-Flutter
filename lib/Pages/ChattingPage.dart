@@ -91,7 +91,6 @@ class ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     focusNode.addListener(onFocusChange);
 
@@ -115,7 +114,7 @@ class ChatScreenState extends State<ChatScreen> {
     Firestore.instance
         .collection("users")
         .document(id)
-        .updateData({'chaatingWith': receiverId});
+        .updateData({'chattingWith': receiverId});
 
     setState(() {});
   }
@@ -531,16 +530,19 @@ class ChatScreenState extends State<ChatScreen> {
                                   height: 200.0,
                                   fit: BoxFit.cover,
                                 ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0)),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(8.0),
+                                ),
                                 clipBehavior: Clip.hardEdge,
                               ),
                               onPressed: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FullPhoto(
-                                            url: document["content"])));
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        FullPhoto(url: document["content"]),
+                                  ),
+                                );
                               },
                             ),
                             margin: EdgeInsets.only(left: 10.0),
@@ -562,8 +564,10 @@ class ChatScreenState extends State<ChatScreen> {
                 ? Container(
                     child: Text(
                       DateFormat("dd MMMM, yyyy - hh:mm:aa").format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                              int.parse(document["timestamp"]))),
+                        DateTime.fromMillisecondsSinceEpoch(
+                          int.parse(document["timestamp"]),
+                        ),
+                      ),
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: 12.0,
