@@ -663,7 +663,7 @@ class ChatScreenState extends State<ChatScreen> {
     //type = 0, text message
     //type = 1, image file
     //type = 2, sticker
-    if (contentMsg != "") {
+    if (contentMsg != " ") {
       textEditingController.clear();
       var docRef = Firestore.instance
           .collection("messages")
